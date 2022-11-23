@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cctv;
+use App\Models\Kelurahan;
+use App\Models\Location;
 use Illuminate\Http\Request;
 
 class CctvController extends Controller
@@ -21,7 +23,7 @@ class CctvController extends Controller
     }
     public function index()
     {
-        $cctvs = Cctv::all();
+        $cctvs = Cctv::getCctv();
         return view('backend.cctv.index', compact('cctvs'));
     }
 
@@ -32,7 +34,9 @@ class CctvController extends Controller
      */
     public function create()
     {
-        return view('backend.cctv.create');
+        $locations = Location::all();
+        $kelurahans = Kelurahan::all();
+        return view('backend.cctv.create', compact('locations', 'kelurahans'));
     }
 
     /**
@@ -47,6 +51,8 @@ class CctvController extends Controller
             'name' => 'required',
             'latitude' => 'nullable',
             'longitude' => 'nullable',
+            'location_id' => 'required',
+            'kelurahan_id' => 'nullable',
         ]);
 
         Cctv::create($data);
@@ -73,7 +79,9 @@ class CctvController extends Controller
      */
     public function edit(Cctv $cctv)
     {
-        return view('backend.cctv.create', compact('cctv'));
+        $locations = Location::all();
+        $kelurahans = Kelurahan::all();
+        return view('backend.cctv.create', compact('cctv', 'locations', 'kelurahans'));
     }
 
     /**
@@ -85,7 +93,16 @@ class CctvController extends Controller
      */
     public function update(Request $request, Cctv $cctv)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required',
+            'latitude' => 'nullable',
+            'longitude' => 'nullable',
+            'location_id' => 'required',
+            'kelurahan_id' => 'nullable',
+        ]);
+        $cctv->update($data);
+        session()->flash('success');
+        return redirect(route('cctv.index'));
     }
 
     /**
@@ -96,6 +113,8 @@ class CctvController extends Controller
      */
     public function destroy(Cctv $cctv)
     {
-        //
+        $cctv->delete();
+        session()->flash('success');
+        return redirect(route('cctv.index'));
     }
 }

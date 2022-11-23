@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Cctv extends Model
 {
@@ -21,5 +22,16 @@ class Cctv extends Model
     public function kelurahan()
     {
         return $this->belongsTo(Kelurahan::class, 'kelurahan_id', 'id_kelurahan');
+    }
+
+    public static function getCctv()
+    {
+        $user = User::getUserRole(Auth::user());
+        $cctv = Cctv::orderBy('location_id', 'desc')->orderBy('name', 'asc')->orderBy('kelurahan_id', 'asc');
+        if ($user != 'SUPERADMIN') {
+            return $cctv->where('user_id', Auth::user()->id)->paginate();
+        } else {
+            return $cctv->paginate();
+        }
     }
 }

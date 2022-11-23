@@ -36,8 +36,35 @@
                             <input type="text" class="form-control"
                                 value="{{ isset($cctv) ? $cctv->name : @old('name') }}" required name="name">
                         </div>
-                        <div id="map"></div>
+                        <div class="form-group">
+                            <label>Kelurahan</label>
+                            <select name="kelurahan_id" class="form-control select2-show-search form-select">
+                                <option value="">Pilih Kelurahan</option>
+                                @foreach ($kelurahans as $kelurahan)
+                                    <option value="{{ $kelurahan->id_kelurahan }}"
+                                        @isset($cctv)
+                                        @selected($kelurahan->id == $cctv->kelurahan_id)
+                                    @endisset>
+                                        {{ $kelurahan->nama_kelurahan }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Lokasi</label>
+                            <select name="location_id" class="form-control select2-show-search form-select" required
+                                id="">
+                                <option value="">Pilih Lokasi</option>
+                                @foreach ($locations as $location)
+                                    <option value="{{ $location->id }}"
+                                        @isset($cctv)
+                                        @selected($location->id == $cctv->location_id)
+                                    @endisset>
+                                        {{ $location->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="row">
+                            <div id="map"></div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Latitude</label>
@@ -73,22 +100,20 @@
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
     <script>
-        var map = L.map('map', {
-            doubleClickZoom: false
-        }).locate({
-            setView: true,
-            maxZoom: 16
-        });
-        var theMarker = {};
-
-        function addMarker(e) {
-            var newMarker = L.marker(e.latlng).addTo(map);
-        }
+        @empty($cctv)
+            var map = L.map('map', {
+                doubleClickZoom: false
+            }).locate({
+                setView: true,
+                maxZoom: 16
+            });
+        @endempty
         @isset($cctv)
+            var map = L.map('map').setView([$('input[name=latitude]').val(), $('input[name=longitude]').val()], 16);
+
             L.marker([$('input[name=latitude]').val(), $('input[name=longitude]').val()]).addTo(map)
-                .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-                .openPopup();
         @endisset
+        var theMarker = {};
         map.on('click', function(e) {
             lat = e.latlng.lat;
             lon = e.latlng.lng;

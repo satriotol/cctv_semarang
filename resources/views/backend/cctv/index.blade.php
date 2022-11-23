@@ -20,10 +20,12 @@
                         <a href="{{ route('cctv.create') }}" class="btn btn-sm btn-primary">Tambah</a>
                     </div>
                     <div class="table-responsive">
-                        <table id="example2" class="table table-bordered text-nowrap border-bottom">
+                        <table class="table border text-nowrap text-md-nowrap table-bordered mb-0">
                             <thead>
                                 <tr>
                                     <th>Name</th>
+                                    <th>Lokasi</th>
+                                    <th>Kelurahan</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -31,6 +33,8 @@
                                 @foreach ($cctvs as $cctv)
                                     <tr>
                                         <td>{{ $cctv->name }}</td>
+                                        <td>{{ $cctv->location?->name }}</td>
+                                        <td>{{ $cctv->kelurahan?->nama_kelurahan }}</td>
                                         <td>
                                             <form action="{{ route('cctv.destroy', $cctv->id) }}" method="post">
                                                 @csrf
@@ -47,6 +51,9 @@
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
+                    <div class="text-end">
+                        {{ $cctvs->links() }}
                     </div>
                 </div>
             </div>
