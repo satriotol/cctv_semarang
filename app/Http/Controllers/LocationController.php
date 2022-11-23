@@ -12,6 +12,13 @@ class LocationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('permission:location-index|location-create|location-edit|location-delete', ['only' => ['index', 'show']]);
+        $this->middleware('permission:location-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:location-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:location-delete', ['only' => ['destroy']]);
+    }
     public function index()
     {
         $locations = Location::all();

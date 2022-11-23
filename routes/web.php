@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CaptchaServiceController;
+use App\Http\Controllers\CctvController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -26,6 +27,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
         return view('backend_layouts.main');
     })->name('dashboard');
     Route::resource('permission', PermissionController::class);
+    Route::resource('cctv', CctvController::class);
     Route::resource('role', RoleController::class);
     Route::resource('user', UserController::class);
     Route::resource('location', LocationController::class);

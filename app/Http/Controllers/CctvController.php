@@ -12,9 +12,17 @@ class CctvController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('permission:cctv-index|cctv-create|cctv-edit|cctv-delete', ['only' => ['index', 'show']]);
+        $this->middleware('permission:cctv-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:cctv-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:cctv-delete', ['only' => ['destroy']]);
+    }
     public function index()
     {
-        //
+        $cctvs = Cctv::all();
+        return view('backend.cctv.index', compact('cctvs'));
     }
 
     /**
@@ -24,7 +32,7 @@ class CctvController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.cctv.create');
     }
 
     /**
@@ -35,7 +43,15 @@ class CctvController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required',
+            'latitude' => 'nullable',
+            'longitude' => 'nullable',
+        ]);
+
+        Cctv::create($data);
+        session()->flash('success');
+        return redirect(route('cctv.index'));
     }
 
     /**
@@ -57,7 +73,7 @@ class CctvController extends Controller
      */
     public function edit(Cctv $cctv)
     {
-        //
+        return view('backend.cctv.create', compact('cctv'));
     }
 
     /**

@@ -32,6 +32,12 @@
                         <h3>Cctv</h3>
                     </li>
                 @endcan
+                @can('cctv-index')
+                    <li>
+                        <a class="side-menu__item {{ active_class(['cctv.*']) }}" href="{{ route('cctv.index') }}"><i
+                                class="side-menu__icon fe fe-grid"></i><span class="side-menu__label">CCTV</span></a>
+                    </li>
+                @endcan
                 @can('location-index')
                     <li>
                         <a class="side-menu__item {{ active_class(['location.*']) }}"
