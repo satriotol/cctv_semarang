@@ -27,30 +27,42 @@
                     <a class="side-menu__item" data-bs-toggle="slide" href="{{ route('dashboard') }}"><i
                             class="side-menu__icon fe fe-home"></i><span class="side-menu__label">Dashboard</span></a>
                 </li>
-                {{-- @canany(['user-index', 'role-index', 'permission-index']) --}}
-                <li class="sub-category">
-                    <h3>User Management</h3>
-                </li>
-                {{-- @endcan --}}
-                {{-- @can('user-index') --}}
-                <li>
-                    <a class="side-menu__item {{ active_class(['user.*']) }}" href="{{ route('user.index') }}"><i
-                            class="side-menu__icon fe fe-grid"></i><span class="side-menu__label">User</span></a>
-                </li>
-                {{-- @endcan --}}
-                {{-- @can('role-index') --}}
-                <li>
-                    <a class="side-menu__item {{ active_class(['role.*']) }}" href="{{ route('role.index') }}"><i
-                            class="side-menu__icon fe fe-grid"></i><span class="side-menu__label">Role</span></a>
-                </li>
-                {{-- @endcan --}}
-                {{-- @can('permission-index') --}}
-                <li>
-                    <a class="side-menu__item {{ active_class(['permission.*']) }}"
-                        href="{{ route('permission.index') }}"><i class="side-menu__icon fe fe-grid"></i><span
-                            class="side-menu__label">Permission</span></a>
-                </li>
-                {{-- @endcan --}}
+                @canany(['location-index'])
+                    <li class="sub-category">
+                        <h3>Cctv</h3>
+                    </li>
+                @endcan
+                @can('location-index')
+                    <li>
+                        <a class="side-menu__item {{ active_class(['location.*']) }}"
+                            href="{{ route('location.index') }}"><i class="side-menu__icon fe fe-grid"></i><span
+                                class="side-menu__label">Location</span></a>
+                    </li>
+                @endcan
+                @canany(['user-index', 'role-index', 'permission-index'])
+                    <li class="sub-category">
+                        <h3>User Management</h3>
+                    </li>
+                @endcan
+                @can('user-index')
+                    <li>
+                        <a class="side-menu__item {{ active_class(['user.*']) }}" href="{{ route('user.index') }}"><i
+                                class="side-menu__icon fe fe-grid"></i><span class="side-menu__label">User</span></a>
+                    </li>
+                @endcan
+                @can('role-index')
+                    <li>
+                        <a class="side-menu__item {{ active_class(['role.*']) }}" href="{{ route('role.index') }}"><i
+                                class="side-menu__icon fe fe-grid"></i><span class="side-menu__label">Role</span></a>
+                    </li>
+                @endcan
+                @can('permission-index')
+                    <li>
+                        <a class="side-menu__item {{ active_class(['permission.*']) }}"
+                            href="{{ route('permission.index') }}"><i class="side-menu__icon fe fe-grid"></i><span
+                                class="side-menu__label">Permission</span></a>
+                    </li>
+                @endcan
             </ul>
             <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191"
                     width="24" height="24" viewBox="0 0 24 24">

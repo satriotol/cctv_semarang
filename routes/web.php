@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CaptchaServiceController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UploadController;
@@ -27,6 +28,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::resource('permission', PermissionController::class);
     Route::resource('role', RoleController::class);
     Route::resource('user', UserController::class);
+    Route::resource('location', LocationController::class);
     Route::get('user/resetPassword/{user}', [UserController::class, 'reset_password'])->name('user.resetPassword');
 
     Route::post('upload/image', [UploadController::class, 'storeImage'])->name('upload.storeImage');
