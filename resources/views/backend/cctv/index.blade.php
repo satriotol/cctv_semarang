@@ -37,7 +37,8 @@
                             <tbody>
                                 @foreach ($cctvs as $cctv)
                                     <tr>
-                                        <td> <video id="my-video{{ $cctv->id }}" width="400" height="300"
+                                        <td>
+                                            {{-- <video id="my-video{{ $cctv->id }}" width="400" height="300"
                                                 preload="auto" class="video-js" controls data-setup='{}'>
                                                 <source src="{{ $cctv->liveViewUrl }}" type='application/x-mpegURL' />
                                                 <p class="vjs-no-js">
@@ -46,7 +47,9 @@
                                                     <a href="https://videojs.com/html5-video-support/"
                                                         target="_blank">supports HTML5 video</a>
                                                 </p>
-                                            </video>
+                                            </video> --}}
+                                            <a href="{{ $cctv->liveViewUrl }}" target="_blank" class="btn btn-sm btn-primary">Buka
+                                                Link</a>
                                         </td>
                                         <td>{{ $cctv->name }} <br>
                                             <div class="badge bg-{{ $cctv->getStatus()[1] }}">{{ $cctv->getStatus()[0] }}

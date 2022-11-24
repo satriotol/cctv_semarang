@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ResponseFormatter;
 use App\Jobs\CctvStatus;
 use App\Models\Cctv;
 use Illuminate\Bus\Batch;
@@ -14,6 +15,11 @@ use Illuminate\Support\Str;
 
 class ApiCctvController extends Controller
 {
+    public function getCctv(Request $request)
+    {
+        $cctvs = Cctv::getApiCctv($request)->get();
+        return ResponseFormatter::success($cctvs, 'Sukses Mengambil Data');
+    }
     public function cctvStatus(Request $request)
     {
         $cctvs = Cctv::where('liveViewUrl', '!=', 'https://streaming.cctvsemarang.katalisindonesia.comnull')->where('liveViewUrl', '!=', '');

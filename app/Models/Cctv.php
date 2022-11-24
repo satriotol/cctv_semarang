@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class Cctv extends Model
@@ -43,6 +44,20 @@ class Cctv extends Model
         } else {
             return $cctv;
         }
+    }
+
+    public static function getApiCctv($request)
+    {
+        $location_id = $request->location_id;
+        $kelurahan_id = $request->kelurahan_id;
+        $cctv = Cctv::where('status', 1)->with(['kelurahan.kecamatan', 'location']);
+        if ($location_id) {
+            $cctv->where('location_id', $location_id);
+        }
+        if ($kelurahan_id) {
+            $cctv->where('kelurahan_id', $kelurahan_id);
+        }
+        return $cctv;
     }
     public function getKelurahan()
     {
