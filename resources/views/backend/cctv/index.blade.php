@@ -48,7 +48,10 @@
                                                 </p>
                                             </video>
                                         </td>
-                                        <td>{{ $cctv->name }}</td>
+                                        <td>{{ $cctv->name }} <br>
+                                            <div class="badge bg-{{ $cctv->getStatus()[1] }}">{{ $cctv->getStatus()[0] }}
+                                            </div>
+                                        </td>
                                         <td>{{ $cctv->location?->name }}</td>
                                         <td>{{ $cctv->getKelurahan() }}
                                         <td>{{ $cctv->rw }} | {{ $cctv->rt }}</td>

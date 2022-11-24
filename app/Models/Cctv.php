@@ -50,8 +50,16 @@ class Cctv extends Model
         $kecamatan = $this->kelurahan->kecamatan->nama_kecamatan ?? '';
         if ($kelurahan && $kecamatan) {
             return $kecamatan . ' / ' . $kelurahan;
-        }else{
+        } else {
             return 'Data Kosong';
+        }
+    }
+    public function getStatus()
+    {
+        if ($this->status == 1) {
+            return ['Hidup', 'success'];
+        } else {
+            return ['Mati', 'danger'];
         }
     }
 }
