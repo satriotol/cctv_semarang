@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::get('batch', [ApiCctvController::class, 'batch']);
 Route::get('cctvStatus', [ApiCctvController::class, 'cctvStatus']);
 Route::middleware('checkHeader')->group(function () {
 });

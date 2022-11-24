@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Jobs\CctvStatus;
 use App\Models\Cctv;
+use Illuminate\Bus\Batch;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
@@ -18,11 +20,15 @@ class ApiCctvController extends Controller
         if ($request->status) {
             $cctvs->where('STATUS', $request->status);
         }
+        $batch = Bus::batch([])->name('cctv status')->dispatch();
         foreach ($cctvs->get() as $cctv) {
-            $job = new CctvStatus($cctv);
-            $this->dispatch($job);
-
+            $batch->add(new CctvStatus($cctv));
         }
-        return "ExampleJob dan HelloWorldJob sedang dijalankan!";
+        return $batch;
+    }
+    public function batch(Request $request)
+    {
+        $batchId = $request->id;
+        return Bus::findBatch($batchId);
     }
 }
