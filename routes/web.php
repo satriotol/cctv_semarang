@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccessTokenController;
 use App\Http\Controllers\CaptchaServiceController;
 use App\Http\Controllers\CctvController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -24,9 +25,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/reload-captcha', [CaptchaServiceController::class, 'reloadCaptcha']);
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
-    Route::get('/', function () {
-        return view('backend_layouts.main');
-    })->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('permission', PermissionController::class);
     Route::resource('cctv', CctvController::class);
     Route::resource('role', RoleController::class);

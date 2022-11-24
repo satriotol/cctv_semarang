@@ -24,7 +24,7 @@ class CctvController extends Controller
     }
     public function index()
     {
-        $cctvs = Cctv::getCctv();
+        $cctvs = Cctv::getCctv()->paginate();
         return view('backend.cctv.index', compact('cctvs'));
     }
 

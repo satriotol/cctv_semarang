@@ -39,9 +39,9 @@ class Cctv extends Model
         $user = User::getUserRole(Auth::user());
         $cctv = Cctv::orderBy('status', 'asc')->orderBy('location_id', 'asc')->orderBy('name', 'asc')->orderBy('kelurahan_id', 'asc');
         if ($user != 'SUPERADMIN') {
-            return $cctv->where('user_id', Auth::user()->id)->paginate();
+            return $cctv->where('user_id', Auth::user()->id);
         } else {
-            return $cctv->paginate();
+            return $cctv;
         }
     }
     public function getKelurahan()
