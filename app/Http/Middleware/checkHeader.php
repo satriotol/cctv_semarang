@@ -19,7 +19,7 @@ class checkHeader
     public function handle(Request $request, Closure $next)
     {
         $accessToken = AccessToken::where('token', $request->header('token'))->first();
-        if ($accessToken) {
+        if ($accessToken != null) {
             // if ($accessToken->used >= 25) {
             //     return ResponseFormatter::error($accessToken->used, 'Token Sudah Melebihi Batas');
             // }
@@ -28,7 +28,7 @@ class checkHeader
             ]);
             return $next($request);
         } else {
-            return ResponseFormatter::error($accessToken->used, 'Token Sudah Melebihi Batas');
+            return ResponseFormatter::error([], 'Token Anda Salah');
         }
     }
 }
