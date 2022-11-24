@@ -14,8 +14,15 @@ class ApiCctvController extends Controller
 {
     public function cctvStatus(Request $request)
     {
-        $job = new CctvStatus();
-        $this->dispatch($job);
+        $cctvs = Cctv::where('liveViewUrl', '!=', 'https://streaming.cctvsemarang.katalisindonesia.comnull')->where('liveViewUrl', '!=', '');
+        if ($request->status) {
+            $cctvs->where('STATUS', $request->status);
+        }
+        foreach ($cctvs->get() as $cctv) {
+            $job = new CctvStatus($cctv);
+            $this->dispatch($job);
+
+        }
         return "ExampleJob dan HelloWorldJob sedang dijalankan!";
     }
 }

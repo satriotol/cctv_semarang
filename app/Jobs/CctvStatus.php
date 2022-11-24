@@ -17,15 +17,15 @@ use Illuminate\Support\Str;
 class CctvStatus implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
+    public $cctv;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($cctv)
     {
-        //
+        $this->cctv = $cctv;
     }
 
     /**
@@ -33,31 +33,24 @@ class CctvStatus implements ShouldQueue
      *
      * @return void
      */
-    public function handle(Request $request)
+    public function handle()
     {
-        $cctvs = Cctv::where('liveViewUrl', '!=', 'https://streaming.cctvsemarang.katalisindonesia.comnull')->where('liveViewUrl', '!=', '');
-        if ($request->status) {
-            $cctvs->where('STATUS', $request->status);
-        }
-        usleep(100000);
-        foreach ($cctvs->get() as $cctv) {
-            $response = Http::get($cctv->liveViewUrl);
-            DB::beginTransaction();
-            try {
-                if ($response->status() == 200 && Str::contains($response, 'YES') == 1) {
-                    $cctv->update([
-                        'status' => 1
-                    ]);
-                } else {
-                    $cctv->update([
-                        'status' => 2
-                    ]);
-                }
-                DB::commit();
-            } catch (\Exception $e) {
-                DB::rollBack();
-                return $e->getMessage();
+        $response = Http::get($this->cctv->liveViewUrl);
+        DB::beginTransaction();
+        try {
+            if ($response->status() == 200 && Str::contains($response, 'YES') == 1) {
+                $this->cctv->update([
+                    'status' => 1
+                ]);
+            } else {
+                $this->cctv->update([
+                    'status' => 2
+                ]);
             }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $e->getMessage();
         }
     }
 }
