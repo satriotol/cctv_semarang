@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccessTokenController;
 use App\Http\Controllers\CaptchaServiceController;
 use App\Http\Controllers\CctvController;
 use App\Http\Controllers\LocationController;
@@ -31,6 +32,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::resource('role', RoleController::class);
     Route::resource('user', UserController::class);
     Route::resource('location', LocationController::class);
+    Route::resource('accessToken', AccessTokenController::class);
     Route::get('user/resetPassword/{user}', [UserController::class, 'reset_password'])->name('user.resetPassword');
 
     Route::post('upload/image', [UploadController::class, 'storeImage'])->name('upload.storeImage');

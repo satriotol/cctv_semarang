@@ -46,7 +46,7 @@
                                 class="side-menu__label">Location</span></a>
                     </li>
                 @endcan
-                @canany(['user-index', 'role-index', 'permission-index'])
+                @canany(['user-index', 'role-index', 'permission-index', 'accessToken-index'])
                     <li class="sub-category">
                         <h3>User Management</h3>
                     </li>
@@ -55,6 +55,13 @@
                     <li>
                         <a class="side-menu__item {{ active_class(['user.*']) }}" href="{{ route('user.index') }}"><i
                                 class="side-menu__icon fe fe-grid"></i><span class="side-menu__label">User</span></a>
+                    </li>
+                @endcan
+                @can('accessToken-index')
+                    <li>
+                        <a class="side-menu__item {{ active_class(['accessToken.*']) }}"
+                            href="{{ route('accessToken.index') }}"><i class="side-menu__icon fe fe-grid"></i><span
+                                class="side-menu__label">Token</span></a>
                     </li>
                 @endcan
                 @can('role-index')
