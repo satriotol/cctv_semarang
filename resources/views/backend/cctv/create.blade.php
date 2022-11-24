@@ -69,12 +69,12 @@
                             <div class="col-md-3">
                                 <label>RW</label>
                                 <input type="number" class="form-control"
-                                    value="{{ isset($cctv) ? $cctv->rw : @old('rw') }}" required name="rw">
+                                    value="{{ isset($cctv) ? $cctv->rw : @old('rw') }}" name="rw">
                             </div>
                             <div class="col-md-3">
                                 <label>RT</label>
                                 <input type="number" class="form-control"
-                                    value="{{ isset($cctv) ? $cctv->rt : @old('rt') }}" required name="rt">
+                                    value="{{ isset($cctv) ? $cctv->rt : @old('rt') }}" name="rt">
                             </div>
                         </div>
                         <div class="row">
@@ -138,7 +138,7 @@
             $('input[name=longitude]').val(lon);
             theMarker = L.marker([lat, lon]).addTo(map);
         });
-        
+
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);

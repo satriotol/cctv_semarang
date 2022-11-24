@@ -1,4 +1,7 @@
 @extends('backend_layouts.main')
+@push('style')
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+@endpush
 @section('content')
     <div class="page-header">
         <h1 class="page-title">Cctv</h1>
@@ -33,6 +36,17 @@
                             <tbody>
                                 @foreach ($cctvs as $cctv)
                                     <tr>
+                                        <td> <video id="my-video{{ $cctv->id }}" width="400" height="300"
+                                                preload="auto" class="video-js" controls data-setup='{}'>
+                                                <source src="{{ $cctv->liveViewUrl }}" type='application/x-mpegURL' />
+                                                <p class="vjs-no-js">
+                                                    To view this video please enable JavaScript, and consider upgrading to a
+                                                    web browser that
+                                                    <a href="https://videojs.com/html5-video-support/"
+                                                        target="_blank">supports HTML5 video</a>
+                                                </p>
+                                            </video>
+                                        </td>
                                         <td>{{ $cctv->name }}</td>
                                         <td>{{ $cctv->location?->name }}</td>
                                         <td>{{ $cctv->kelurahan?->kecamatan->nama_kecamatan }} /
@@ -64,3 +78,6 @@
         </div>
     </div>
 @endsection
+@push('custom-scripts')
+    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+@endpush
