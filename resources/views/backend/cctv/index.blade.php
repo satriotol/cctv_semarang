@@ -25,7 +25,8 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Lokasi</th>
-                                    <th>Kelurahan</th>
+                                    <th>Kecamatan / Kelurahan</th>
+                                    <th>RW / RT</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -34,7 +35,10 @@
                                     <tr>
                                         <td>{{ $cctv->name }}</td>
                                         <td>{{ $cctv->location?->name }}</td>
-                                        <td>{{ $cctv->kelurahan?->nama_kelurahan }}</td>
+                                        <td>{{ $cctv->kelurahan?->kecamatan->nama_kecamatan }} /
+                                            {{ $cctv->kelurahan?->nama_kelurahan }}
+                                        <td>{{ $cctv->rw }} | {{ $cctv->rt }}</td>
+                                        </td>
                                         <td>
                                             <form action="{{ route('cctv.destroy', $cctv->id) }}" method="post">
                                                 @csrf

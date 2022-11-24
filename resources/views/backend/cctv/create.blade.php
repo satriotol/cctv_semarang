@@ -37,19 +37,6 @@
                                 value="{{ isset($cctv) ? $cctv->name : @old('name') }}" required name="name">
                         </div>
                         <div class="form-group">
-                            <label>Kelurahan</label>
-                            <select name="kelurahan_id" class="form-control select2-show-search form-select">
-                                <option value="">Pilih Kelurahan</option>
-                                @foreach ($kelurahans as $kelurahan)
-                                    <option value="{{ $kelurahan->id_kelurahan }}"
-                                        @isset($cctv)
-                                        @selected($kelurahan->id == $cctv->kelurahan_id)
-                                    @endisset>
-                                        {{ $kelurahan->nama_kelurahan }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
                             <label>Lokasi</label>
                             <select name="location_id" class="form-control select2-show-search form-select" required
                                 id="">
@@ -62,6 +49,33 @@
                                         {{ $location->name }}</option>
                                 @endforeach
                             </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Kelurahan</label>
+                                    <select name="kelurahan_id" class="form-control select2-show-search form-select">
+                                        <option value="">Pilih Kelurahan</option>
+                                        @foreach ($kelurahans as $kelurahan)
+                                            <option value="{{ $kelurahan->id_kelurahan }}"
+                                                @isset($cctv)
+                                                @selected($kelurahan->id_kelurahan == $cctv->kelurahan_id)
+                                            @endisset>
+                                                {{ $kelurahan->nama_kelurahan }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label>RW</label>
+                                <input type="number" class="form-control"
+                                    value="{{ isset($cctv) ? $cctv->rw : @old('rw') }}" required name="rw">
+                            </div>
+                            <div class="col-md-3">
+                                <label>RT</label>
+                                <input type="number" class="form-control"
+                                    value="{{ isset($cctv) ? $cctv->rt : @old('rt') }}" required name="rt">
+                            </div>
                         </div>
                         <div class="row">
                             <div id="map"></div>
@@ -117,7 +131,6 @@
         map.on('click', function(e) {
             lat = e.latlng.lat;
             lon = e.latlng.lng;
-            console.log("You clicked the map at LAT: " + lat + " and LONG: " + lon);
             if (theMarker != undefined) {
                 map.removeLayer(theMarker);
             };
@@ -125,7 +138,7 @@
             $('input[name=longitude]').val(lon);
             theMarker = L.marker([lat, lon]).addTo(map);
         });
-
+        
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);

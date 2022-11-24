@@ -6,6 +6,7 @@ use App\Models\Cctv;
 use App\Models\Kelurahan;
 use App\Models\Location;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CctvController extends Controller
 {
@@ -54,7 +55,7 @@ class CctvController extends Controller
             'location_id' => 'required',
             'kelurahan_id' => 'nullable',
         ]);
-
+        $data['user_id'] = Auth::user()->id;
         Cctv::create($data);
         session()->flash('success');
         return redirect(route('cctv.index'));

@@ -16,7 +16,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('backend_assets/images/LambangSemarang.png') }}" />
 
     <!-- TITLE -->
-    <title>INSPEKTORAT SEMARANG</title>
+    <title>CCTV SEMARANG</title>
 
     <!-- BOOTSTRAP CSS -->
     <link id="style" href="{{ asset('backend_assets/plugins/bootstrap/css/bootstrap.min.css') }}"

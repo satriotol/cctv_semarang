@@ -3,14 +3,14 @@
     <div class="app-sidebar">
         <div class="side-header">
             <a class="header-brand1" href="{{ route('dashboard') }}">
-                {{-- <img src="{{ asset('backend_assets/images/logoinspektorat.png') }}" class="header-brand-img desktop-logo"
+                <img src="{{ asset('backend_assets/images/LambangSemarang.png') }}" class="header-brand-img desktop-logo"
                     alt="logo">
-                <img src="{{ asset('backend_assets/images/pemkotsmg.png') }}" class="header-brand-img toggle-logo"
-                    alt="logo"> --}}
+                <img src="{{ asset('backend_assets/images/LambangSemarang.png') }}" class="header-brand-img toggle-logo"
+                    alt="logo">
                 <img src="{{ asset('backend_assets/images/LambangSemarang.png') }}" class="header-brand-img light-logo"
                     alt="logo">
-                <img src="{{ asset('backend_assets/images/logoinspektorat.png') }}" class="header-brand-img light-logo1"
-                    alt="logo">
+                <img src="{{ asset('backend_assets/images/LambangSemarang.png') }}" style="height: 50px"
+                    class="header-brand-img light-logo1" alt="logo">
             </a>
             <!-- LOGO -->
         </div>
