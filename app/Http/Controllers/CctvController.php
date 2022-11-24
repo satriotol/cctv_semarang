@@ -37,7 +37,8 @@ class CctvController extends Controller
     {
         $locations = Location::all();
         $kelurahans = Kelurahan::all();
-        return view('backend.cctv.create', compact('locations', 'kelurahans'));
+        $statuses = Cctv::STATUS;
+        return view('backend.cctv.create', compact('locations', 'kelurahans', 'statuses'));
     }
 
     /**
@@ -54,6 +55,13 @@ class CctvController extends Controller
             'longitude' => 'nullable',
             'location_id' => 'required',
             'kelurahan_id' => 'nullable',
+            'rt' => 'nullable',
+            'rw' => 'nullable',
+            'liveViewUrl' => 'nullable',
+            'ipaddress' => 'nullable',
+            'username_cctv' => 'nullable',
+            'password_cctv' => 'nullable',
+            'status' => 'required',
         ]);
         $data['user_id'] = Auth::user()->id;
         Cctv::create($data);
@@ -82,7 +90,8 @@ class CctvController extends Controller
     {
         $locations = Location::all();
         $kelurahans = Kelurahan::all();
-        return view('backend.cctv.create', compact('cctv', 'locations', 'kelurahans'));
+        $statuses = Cctv::STATUS;
+        return view('backend.cctv.create', compact('cctv', 'locations', 'kelurahans', 'statuses'));
     }
 
     /**
@@ -100,6 +109,13 @@ class CctvController extends Controller
             'longitude' => 'nullable',
             'location_id' => 'required',
             'kelurahan_id' => 'nullable',
+            'rt' => 'nullable',
+            'rw' => 'nullable',
+            'liveViewUrl' => 'nullable',
+            'ipaddress' => 'nullable',
+            'username_cctv' => 'nullable',
+            'password_cctv' => 'nullable',
+            'status' => 'required',
         ]);
         $cctv->update($data);
         session()->flash('success');

@@ -11,6 +11,16 @@ class Cctv extends Model
     use HasFactory;
 
     protected $fillable = ['location_id', 'kelurahan_id', 'user_id', 'status', 'name', 'liveViewUrl', 'rt', 'rw', 'latitude', 'longitude', 'ipaddress', 'username_cctv', 'password_cctv', 'note'];
+
+    const STATUS_HIDUP = [
+        '1',
+        'Hidup'
+    ];
+    const STATUS_MATI = [
+        '2',
+        'Mati'
+    ];
+    const STATUS = [self::STATUS_HIDUP, self::STATUS_MATI];
     public function location()
     {
         return $this->belongsTo(Location::class, 'location_id', 'id');
@@ -32,6 +42,16 @@ class Cctv extends Model
             return $cctv->where('user_id', Auth::user()->id)->paginate();
         } else {
             return $cctv->paginate();
+        }
+    }
+    public function getKelurahan()
+    {
+        $kelurahan = $this->kelurahan->nama_kelurahan ?? '';
+        $kecamatan = $this->kelurahan->kecamatan->nama_kecamatan ?? '';
+        if ($kelurahan && $kecamatan) {
+            return $kecamatan . ' / ' . $kelurahan;
+        }else{
+            return 'Data Kosong';
         }
     }
 }

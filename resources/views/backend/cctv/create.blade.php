@@ -67,14 +67,61 @@
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <label>RW</label>
-                                <input type="number" class="form-control"
-                                    value="{{ isset($cctv) ? $cctv->rw : @old('rw') }}" name="rw">
+                                <div class="form-group">
+                                    <label>RW</label>
+                                    <input type="number" class="form-control"
+                                        value="{{ isset($cctv) ? $cctv->rw : @old('rw') }}" name="rw">
+                                </div>
                             </div>
                             <div class="col-md-3">
-                                <label>RT</label>
-                                <input type="number" class="form-control"
-                                    value="{{ isset($cctv) ? $cctv->rt : @old('rt') }}" name="rt">
+                                <div class="form-group">
+                                    <label>RT</label>
+                                    <input type="number" class="form-control"
+                                        value="{{ isset($cctv) ? $cctv->rt : @old('rt') }}" name="rt">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Live View Url</label>
+                            <input type="text" value="{{ isset($cctv) ? $cctv->liveViewUrl : @old('liveViewUrl') }}"
+                                name="liveViewUrl" class="form-control" id="">
+                        </div>
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select name="status" class="form-control" id="" required>
+                                <option value="">Pilih Status</option>
+                                @foreach ($statuses as $status)
+                                    <option value="{{ $status[0] }}"
+                                        @isset($cctv)
+                                        @selected($status[0] == $cctv->status)
+                                    @endisset>
+                                        {{ $status[1] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>IP Address</label>
+                                    <input type="text" value="{{ isset($cctv) ? $cctv->ipaddress : @old('ipaddress') }}"
+                                        name="ipaddress" class="form-control" id="">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Username CCTV</label>
+                                    <input type="text"
+                                        value="{{ isset($cctv) ? $cctv->username_cctv : @old('username_cctv') }}"
+                                        name="username_cctv" class="form-control" id="">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Password CCTV</label>
+                                    <input type="text"
+                                        value="{{ isset($cctv) ? $cctv->password_cctv : @old('password_cctv') }}"
+                                        name="password_cctv" class="form-control" id="">
+                                </div>
                             </div>
                         </div>
                         <div class="row">

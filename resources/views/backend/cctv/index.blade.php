@@ -26,6 +26,7 @@
                         <table class="table border text-nowrap text-md-nowrap table-bordered mb-0">
                             <thead>
                                 <tr>
+                                    <th>CCTV</th>
                                     <th>Name</th>
                                     <th>Lokasi</th>
                                     <th>Kecamatan / Kelurahan</th>
@@ -49,8 +50,7 @@
                                         </td>
                                         <td>{{ $cctv->name }}</td>
                                         <td>{{ $cctv->location?->name }}</td>
-                                        <td>{{ $cctv->kelurahan?->kecamatan->nama_kecamatan }} /
-                                            {{ $cctv->kelurahan?->nama_kelurahan }}
+                                        <td>{{ $cctv->getKelurahan() }}
                                         <td>{{ $cctv->rw }} | {{ $cctv->rt }}</td>
                                         </td>
                                         <td>
