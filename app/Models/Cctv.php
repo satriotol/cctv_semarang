@@ -50,12 +50,22 @@ class Cctv extends Model
     {
         $location_id = $request->location_id;
         $kelurahan_id = $request->kelurahan_id;
-        $cctv = Cctv::where('status', 1)->with(['kelurahan.kecamatan', 'location']);
+        $status = $request->status;
+        $latlng = $request->latlng;
+        $cctv = Cctv::with(['kelurahan.kecamatan', 'location']);
         if ($location_id) {
             $cctv->where('location_id', $location_id);
         }
         if ($kelurahan_id) {
             $cctv->where('kelurahan_id', $kelurahan_id);
+        }
+        if ($status) {
+            $cctv->where('status', $status);
+        } else {
+            $cctv->where('status', 1);
+        }
+        if ($latlng) {
+            $cctv->whereNotNull('latitude')->whereNotNull('longitude');
         }
         return $cctv;
     }
