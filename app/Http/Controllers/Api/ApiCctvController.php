@@ -23,7 +23,7 @@ class ApiCctvController extends Controller
     }
     public function getCctv(Request $request)
     {
-        $cctvs = Cctv::getApiCctv($request)->inRandomOrder()->paginate();
+        $cctvs = Cctv::getApiCctv($request)->inRandomOrder()->paginate(30);
         return ResponseFormatter::success($cctvs, 'Sukses Mengambil Data');
     }
     public function cctvStatus(Request $request)
