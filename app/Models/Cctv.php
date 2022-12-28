@@ -37,13 +37,17 @@ class Cctv extends Model
 
     public static function getCctv()
     {
-        $user = User::getUserRole(Auth::user());
         $cctv = Cctv::orderBy('status', 'asc')->orderBy('location_id', 'asc')->orderBy('name', 'asc')->orderBy('kelurahan_id', 'asc');
-        if ($user != 'SUPERADMIN') {
-            return $cctv->where('user_id', Auth::user()->id);
-        } else {
-            return $cctv;
+
+        if (Auth::user()) {
+            $user = User::getUserRole(Auth::user());
+            if ($user != 'SUPERADMIN') {
+                return $cctv->where('user_id', Auth::user()->id);
+            } else {
+                return $cctv;
+            }
         }
+        return $cctv;
     }
 
     public static function getApiCctv($request)

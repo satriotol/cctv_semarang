@@ -22,10 +22,22 @@ class CctvController extends Controller
         $this->middleware('permission:cctv-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:cctv-delete', ['only' => ['destroy']]);
     }
-    public function index()
+    public function index(Request $request)
     {
-        $cctvs = Cctv::getCctv()->paginate();
-        return view('backend.cctv.index', compact('cctvs'));
+        $location_id = $request->location_id;
+        $status = $request->status;
+        $locations = Location::all();
+
+        $cctvs = Cctv::getCctv();
+        if ($location_id) {
+            $cctvs->where('location_id', $location_id);
+        }
+        if ($status) {
+            $cctvs->where('status', $status);
+        }
+        $cctvs = $cctvs->paginate();
+        $request->flash();
+        return view('backend.cctv.index', compact('cctvs', 'locations'));
     }
 
     /**

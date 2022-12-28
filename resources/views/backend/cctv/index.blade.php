@@ -16,6 +16,42 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
+                    <h3 class="card-title">Pencarian</h3>
+                </div>
+                <div class="card-body">
+                    <form action="">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Lokasi</label>
+                                    <select name="location_id" class="form-control select2-show-search" id="">
+                                        <option value="">Pilih Lokasi</option>
+                                        @foreach ($locations as $location)
+                                            <option value="{{ $location->id }}" @selected(@old('location_id') == $location->id)>
+                                                {{ $location->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select name="status" class="form-control select2-show-search" id="">
+                                        <option value="">Pilih Status</option>
+                                        <option value="1" @selected(@old('status') == '1')>Hidup</option>
+                                        <option value="2" @selected(@old('status') == 'null')>Mati</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <button class="btn btn-sm btn-success" type="submit">Cari</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
                     <h3 class="card-title">Cctv</h3>
                 </div>
                 <div class="card-body">
@@ -38,17 +74,8 @@
                                 @foreach ($cctvs as $cctv)
                                     <tr>
                                         <td>
-                                            {{-- <video id="my-video{{ $cctv->id }}" width="400" height="300"
-                                                preload="auto" class="video-js" controls data-setup='{}'>
-                                                <source src="{{ $cctv->liveViewUrl }}" type='application/x-mpegURL' />
-                                                <p class="vjs-no-js">
-                                                    To view this video please enable JavaScript, and consider upgrading to a
-                                                    web browser that
-                                                    <a href="https://videojs.com/html5-video-support/"
-                                                        target="_blank">supports HTML5 video</a>
-                                                </p>
-                                            </video> --}}
-                                            <a href="{{ $cctv->liveViewUrl }}" target="_blank" class="btn btn-sm btn-primary">Buka
+                                            <a href="{{ $cctv->liveViewUrl }}" target="_blank"
+                                                class="btn btn-sm btn-primary">Buka
                                                 Link</a>
                                         </td>
                                         <td>{{ $cctv->name }} <br>
@@ -76,8 +103,10 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="text-end">
-                        {{ $cctvs->links() }}
+                    <div class="row">
+                        {{-- <div class="text-end"> --}}
+                        {{ $cctvs->appends($_GET)->links() }}
+                        {{-- </div> --}}
                     </div>
                 </div>
             </div>

@@ -43,4 +43,21 @@ class ApiCctvController extends Controller
         $batchId = $request->id;
         return Bus::findBatch($batchId);
     }
+    public function getFirstBatch()
+    {
+        $data = DB::table('job_batches')->orderByDesc('created_at')->first();
+        $totalCctv = Cctv::getCctv()->count();
+        $cctvHidup = Cctv::getCctv()->where('status', 1)->count();
+        $cctvMati = Cctv::getCctv()->where('status', 2)->count();
+        $data = [
+            "nama" => $data->name,
+            "total_jobs" => $data->total_jobs,
+            "pending_jobs" => $data->pending_jobs,
+            "done_jobs" => $data->total_jobs - $data->pending_jobs,
+            "totalCctv" => $totalCctv,
+            "cctvHidup" => $cctvHidup,
+            "cctvMati" => $cctvMati,
+        ];
+        return $data;
+    }
 }

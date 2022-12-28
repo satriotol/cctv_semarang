@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('getLocation', [ApiCctvController::class, 'getLocation']);
 Route::get('getCctv', [ApiCctvController::class, 'getCctv']);
 Route::get('batch', [ApiCctvController::class, 'batch']);
+Route::get('getFirstBatch', [ApiCctvController::class, 'getFirstBatch'])->name('getFirstBatch');
 Route::get('cctvStatus', [ApiCctvController::class, 'cctvStatus']);
 Route::middleware('checkHeader')->group(function () {
 });
