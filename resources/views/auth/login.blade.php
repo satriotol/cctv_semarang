@@ -96,6 +96,8 @@
                                                 <button type="submit"
                                                     class="login100-form-btn btn-primary">Masuk</button>
                                             </div>
+                                            <a href="{{ route('login.google') }}" target="_blank">Login Menggunakan
+                                                Google</a>
                                         </div>
                                     </div>
                                 </form>

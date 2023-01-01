@@ -26,6 +26,7 @@ class CctvController extends Controller
     {
         $location_id = $request->location_id;
         $status = $request->status;
+        $name = $request->name;
         $locations = Location::all();
 
         $cctvs = Cctv::getCctv();
@@ -34,6 +35,9 @@ class CctvController extends Controller
         }
         if ($status) {
             $cctvs->where('status', $status);
+        }
+        if ($name) {
+            $cctvs->where('name', 'LIKE', '%' . $name . '%');
         }
         $cctvs = $cctvs->paginate();
         $request->flash();

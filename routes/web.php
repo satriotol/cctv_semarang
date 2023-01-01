@@ -4,12 +4,14 @@ use App\Http\Controllers\AccessTokenController;
 use App\Http\Controllers\CaptchaServiceController;
 use App\Http\Controllers\CctvController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +25,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/reload-captcha', [CaptchaServiceController::class, 'reloadCaptcha']);
-
+Route::get('login/google', function () {
+    return Socialite::driver('google')->redirect();
+})->name('login.google');
+Route::get('auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('callback.google');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('permission', PermissionController::class);
