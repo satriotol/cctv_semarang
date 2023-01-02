@@ -23,7 +23,12 @@ class ApiCctvController extends Controller
     }
     public function getCctv(Request $request)
     {
-        $cctvs = Cctv::getApiCctv($request)->inRandomOrder()->paginate(30);
+        $paginate = $request->paginate;
+        if ($paginate) {
+            $cctvs = Cctv::getApiCctv($request)->orderBy('name')->paginate($paginate);
+        }else{
+            $cctvs = Cctv::getApiCctv($request)->orderBy('name')->get();
+        }
         return ResponseFormatter::success($cctvs, 'Sukses Mengambil Data');
     }
     public function cctvStatus(Request $request)
@@ -44,9 +49,9 @@ class ApiCctvController extends Controller
     }
     public function cctvStatusDetail(Cctv $cctv)
     {
-        if (Str::contains($cctv->liveViewUrl, 'katalisindonesia')) {
+        if (Str::contains($cctv->liveViewUrl, 'katalisindonesia') == 1) {
             $response = Http::get($cctv->liveViewUrl);
-            if ($response->status() == 200 && Str::contains($response, 'YES')) {
+            if (Str::contains($response, 'YES') == 1  && $response->status() == 200) {
                 $cctv->update([
                     'status' => 1,
                 ]);
@@ -55,7 +60,7 @@ class ApiCctvController extends Controller
                     'status' => 2,
                 ]);
             }
-        } elseif (Str::contains($cctv->liveViewUrl, 'livecctvpuhls')) {
+        } elseif (Str::contains($cctv->liveViewUrl, 'livecctvpuhls') == 1) {
             $url = Str::replace("stream", "index", $cctv->liveViewUrl);
             $response = Http::get($url);
             if ($response->status() == 200) {

@@ -24,6 +24,7 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
+                                    <th>Jumlah</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -31,6 +32,7 @@
                                 @foreach ($locations as $location)
                                     <tr>
                                         <td>{{ $location->name }}</td>
+                                        <td>{{ $location->cctvs->count() }}</td>
                                         <td>
                                             <form action="{{ route('location.destroy', $location->id) }}" method="post">
                                                 @csrf

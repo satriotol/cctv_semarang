@@ -2,13 +2,10 @@
 
 namespace App\Jobs;
 
-use App\Models\Cctv;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Http\Request;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
@@ -36,29 +33,39 @@ class CctvStatus implements ShouldQueue
      */
     public function handle()
     {
-        if (Str::contains($this->cctv->liveViewUrl, 'katalisindonesia')) {
-            $response = Http::get($this->cctv->liveViewUrl);
-            if (Str::contains($response, 'YES') && $response->status() == 200) {
-                $this->cctv->update([
-                    'status' => 1
-                ]);
-            } else {
-                $this->cctv->update([
-                    'status' => 2
-                ]);
+        DB::beginTransaction();
+        try {
+            if (Str::contains($this->cctv->liveViewUrl, 'katalisindonesia') == 1) {
+                $response = Http::get($this->cctv->liveViewUrl);
+                if (Str::contains($response, 'YES') == 1  && $response->status() == 200) {
+                    $this->cctv->update([
+                        'status' => 1
+                    ]);
+                } else {
+                    $this->cctv->update([
+                        'status' => 2
+                    ]);
+                }
+            } elseif (Str::contains($this->cctv->liveViewUrl, 'livecctvpuhls') == 1) {
+                $url = Str::replace("stream", "index", $this->cctv->liveViewUrl);
+                $response = Http::get($url);
+                if ($response->status() == 200) {
+                    $this->cctv->update([
+                        'status' => 1
+                    ]);
+                } else {
+                    $this->cctv->update([
+                        'status' => 2
+                    ]);
+                }
             }
-        } elseif (Str::contains($this->cctv->liveViewUrl, 'livecctvpuhls')) {
-            $url = Str::replace("stream", "index", $this->cctv->liveViewUrl);
-            $response = Http::get($url);
-            if ($response->status() == 200) {
-                $this->cctv->update([
-                    'status' => 1
-                ]);
-            } else {
-                $this->cctv->update([
-                    'status' => 2
-                ]);
-            }
+            DB::commit();
+        } catch (\Throwable $th) {
+            $this->cctv->update([
+                'status' => 2,
+            ]);
+            DB::commit();
+            // DB::rollBack();
         }
     }
 }
