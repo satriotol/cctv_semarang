@@ -33,7 +33,7 @@ Route::post('/start-queue', function () {
     Artisan::call('queue:work');
 })->name('work');
 Route::post('/stop-queue', function() {
-    Artisan::call('queue:stop');
+    Artisan::call('queue:restart');
 })->name('stopQueue');
 Route::get('auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('callback.google');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
