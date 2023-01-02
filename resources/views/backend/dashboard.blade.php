@@ -120,7 +120,7 @@
                         .then((res) => {
                             console.log(res)
                         });
-                }
+                },
                 stopQueue() {
                     axios.post("{{ route('stopQueue') }}")
                         .then((res) => {
