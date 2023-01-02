@@ -78,6 +78,9 @@
                 <form @submit.prevent="startQueue">
                     <button type="submit">Start Queue</button>
                 </form>
+                <form @submit.prevent="stopQueue">
+                    <button type="submit">Stop Queue</button>
+                </form>
             </div>
         </div>
     </div>
@@ -114,6 +117,12 @@
                 },
                 startQueue() {
                     axios.post("{{ route('work') }}")
+                        .then((res) => {
+                            console.log(res)
+                        });
+                }
+                stopQueue() {
+                    axios.post("{{ route('stopQueue') }}")
                         .then((res) => {
                             console.log(res)
                         });

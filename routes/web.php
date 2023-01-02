@@ -32,6 +32,9 @@ Route::get('login/google', function () {
 Route::post('/start-queue', function () {
     Artisan::call('queue:work');
 })->name('work');
+Route::post('/stop-queue', function() {
+    Artisan::call('queue:stop');
+})->name('stopQueue');
 Route::get('auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('callback.google');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
