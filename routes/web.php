@@ -10,6 +10,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -28,6 +29,9 @@ Route::get('/reload-captcha', [CaptchaServiceController::class, 'reloadCaptcha']
 Route::get('login/google', function () {
     return Socialite::driver('google')->redirect();
 })->name('login.google');
+Route::post('/start-queue', function () {
+    Artisan::call('queue:work');
+})->name('work');
 Route::get('auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('callback.google');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');

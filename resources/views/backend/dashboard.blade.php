@@ -75,6 +75,9 @@
                         </div>
                     </div>
                 </div>
+                <form @submit.prevent="startQueue">
+                    <button type="submit">Start Queue</button>
+                </form>
             </div>
         </div>
     </div>
@@ -108,6 +111,12 @@
                         .then((res) => {
                             this.data = res.data;
                         })
+                },
+                startQueue() {
+                    axios.post("{{ route('work') }}")
+                        .then((res) => {
+                            console.log(res)
+                        });
                 }
             },
         }).mount('#app')
