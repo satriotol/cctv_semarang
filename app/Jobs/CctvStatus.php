@@ -36,10 +36,9 @@ class CctvStatus implements ShouldQueue
      */
     public function handle()
     {
-        $response = Http::get($this->cctv->liveViewUrl);
-        DB::beginTransaction();
-        try {
-            if ($response->status() == 200 && Str::contains($response, 'YES') == 1) {
+        if (Str::contains($this->cctv->liveViewUrl, 'katalisindonesia')) {
+            $response = Http::get($this->cctv->liveViewUrl);
+            if (Str::contains($response, 'YES') && $response->status() == 200) {
                 $this->cctv->update([
                     'status' => 1
                 ]);
@@ -48,10 +47,18 @@ class CctvStatus implements ShouldQueue
                     'status' => 2
                 ]);
             }
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return $e->getMessage();
+        } elseif (Str::contains($this->cctv->liveViewUrl, 'livecctvpuhls')) {
+            $url = Str::replace("stream", "index", $this->cctv->liveViewUrl);
+            $response = Http::get($url);
+            if ($response->status() == 200) {
+                $this->cctv->update([
+                    'status' => 1
+                ]);
+            } else {
+                $this->cctv->update([
+                    'status' => 2
+                ]);
+            }
         }
     }
 }

@@ -94,6 +94,7 @@
                                         <td>{{ $cctv->rw }} | {{ $cctv->rt }}</td>
                                         </td>
                                         <td>
+                                            <a href="{{ route('cctvStatusDetail', $cctv->id) }}">Cek CCTV</a>
                                             <form action="{{ route('cctv.destroy', $cctv->id) }}" method="post">
                                                 @csrf
                                                 @method('delete')

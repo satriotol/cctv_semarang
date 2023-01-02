@@ -28,15 +28,47 @@ class ApiCctvController extends Controller
     }
     public function cctvStatus(Request $request)
     {
+        $location_id = $request->location_id;
         $cctvs = Cctv::where('liveViewUrl', '!=', 'https://streaming.cctvsemarang.katalisindonesia.comnull')->where('liveViewUrl', '!=', '');
+        if ($location_id) {
+            $cctvs->where('location_id', $location_id);
+        }
         if ($request->status) {
-            $cctvs->where('STATUS', $request->status);
+            $cctvs->where('status', $request->status);
         }
         $batch = Bus::batch([])->name('cctv status')->dispatch();
         foreach ($cctvs->get() as $cctv) {
             $batch->add(new CctvStatus($cctv));
         }
         return $batch;
+    }
+    public function cctvStatusDetail(Cctv $cctv)
+    {
+        if (Str::contains($cctv->liveViewUrl, 'katalisindonesia')) {
+            $response = Http::get($cctv->liveViewUrl);
+            if ($response->status() == 200 && Str::contains($response, 'YES')) {
+                $cctv->update([
+                    'status' => 1,
+                ]);
+            } else {
+                $cctv->update([
+                    'status' => 2,
+                ]);
+            }
+        } elseif (Str::contains($cctv->liveViewUrl, 'livecctvpuhls')) {
+            $url = Str::replace("stream", "index", $cctv->liveViewUrl);
+            $response = Http::get($url);
+            if ($response->status() == 200) {
+                $cctv->update([
+                    'status' => 1,
+                ]);
+            } else {
+                $cctv->update([
+                    'status' => 2,
+                ]);
+            }
+        }
+        return back();
     }
     public function batch(Request $request)
     {

@@ -22,6 +22,7 @@ Route::get('getLocation', [ApiCctvController::class, 'getLocation']);
 Route::get('getCctv', [ApiCctvController::class, 'getCctv']);
 Route::get('batch', [ApiCctvController::class, 'batch']);
 Route::get('getFirstBatch', [ApiCctvController::class, 'getFirstBatch'])->name('getFirstBatch');
-Route::get('cctvStatus', [ApiCctvController::class, 'cctvStatus']);
+Route::get('cctvStatus', [ApiCctvController::class, 'cctvStatus'])->name('cctvStatus');
+Route::get('cctvStatus/{cctv}', [ApiCctvController::class, 'cctvStatusDetail'])->name('cctvStatusDetail');
 Route::middleware('checkHeader')->group(function () {
 });
