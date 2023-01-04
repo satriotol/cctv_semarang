@@ -18,7 +18,7 @@ class ApiCctvController extends Controller
 {
     public function getLocation()
     {
-        $locations = Location::all();
+        $locations = Location::whereHas('cctvs')->get();
         return ResponseFormatter::success($locations, 'Sukses Mengambil Data');
     }
     public function getCctv(Request $request)
