@@ -78,9 +78,9 @@
                 <form @submit.prevent="startQueue">
                     <button type="submit">Start Queue</button>
                 </form>
-                {{-- <form @submit.prevent="stopQueue">
+                <form @submit.prevent="stopQueue">
                     <button type="submit">Stop Queue</button>
-                </form> --}}
+                </form>
             </div>
         </div>
     </div>
