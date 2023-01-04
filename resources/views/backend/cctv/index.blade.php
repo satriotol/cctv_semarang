@@ -71,6 +71,7 @@
                                 <tr>
                                     <th>CCTV</th>
                                     <th>Name</th>
+                                    <th>Latitude, Longitutde</th>
                                     <th>Lokasi</th>
                                     <th>Kecamatan / Kelurahan</th>
                                     <th>RW / RT</th>
@@ -89,6 +90,7 @@
                                             <div class="badge bg-{{ $cctv->getStatus()[1] }}">{{ $cctv->getStatus()[0] }}
                                             </div>
                                         </td>
+                                        <td>{{ $cctv->latitude }} <br> {{ $cctv->longitude }}</td>
                                         <td>{{ $cctv->location?->name }}</td>
                                         <td>{{ $cctv->getKelurahan() }}
                                         <td>{{ $cctv->rw }} | {{ $cctv->rt }}</td>
