@@ -18,7 +18,9 @@ class ApiCctvController extends Controller
 {
     public function getLocation()
     {
-        $locations = Location::whereHas('cctvs')->get();
+        $locations = Location::whereHas('cctvs', function ($q) {
+            $q->where('status', 1);
+        })->get();
         return ResponseFormatter::success($locations, 'Sukses Mengambil Data');
     }
     public function getCctv(Request $request)
@@ -26,7 +28,7 @@ class ApiCctvController extends Controller
         $paginate = $request->paginate;
         if ($paginate) {
             $cctvs = Cctv::getApiCctv($request)->orderBy('name')->paginate($paginate);
-        }else{
+        } else {
             $cctvs = Cctv::getApiCctv($request)->orderBy('name')->get();
         }
         return ResponseFormatter::success($cctvs, 'Sukses Mengambil Data');
